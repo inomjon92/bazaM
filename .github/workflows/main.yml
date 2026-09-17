@@ -8,20 +8,32 @@ jobs:
       - name: Kodlarni yuklab olish
         uses: actions/checkout@v4
 
-      - name: Java JDK 17 ni o'rnatish (ENG YANGI V5 VERSIYA!)
+      - name: Java JDK 17 ni o'rnatish
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: ZIP faylni avtomat ochish
+      - name: ZIP faylni avtomat ochish va poydevor qurish
         run: |
           unzip -o qarz-avtomat.zip || true
+          mkdir -p app/src/main/java/com/axror/bazarcontrol
+          # Fayllarni to'g'ri joylashini kafolatlash
+          mv -f BootReceiver.java app/src/main/java/com/axror/bazarcontrol/ 2>/dev/null || true
+          mv -f QarzAlarmReceiver.java app/src/main/java/com/axror/bazarcontrol/ 2>/dev/null || true
+          mv -f MainActivity.java app/src/main/java/com/axror/bazarcontrol/ 2>/dev/null || true
+          mv -f MainActivty.java app/src/main/java/com/axror/bazarcontrol/MainActivity.java 2>/dev/null || true
+          mkdir -p app/src/main
+          mv -f AndroidManifest.xml app/src/main/ 2>/dev/null || true
 
-      - name: Gradle poydevorini tiklash va APK yig'ish
+      - name: Gradle wrapper va poydevorni yig'ish
         run: |
-          gradle wrapper
-          ./gradlew assembleRelease
+          gradle wrapper --gradle-version 8.0
+          chmod +x gradlew
+
+      - name: APK faylini yig'ish (Build)
+        run: |
+          ./gradlew assembleRelease --no-daemon
 
       - name: Tayyor APK faylini saqlash
         uses: actions/upload-artifact@v4
