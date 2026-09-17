@@ -8,8 +8,8 @@ jobs:
       - name: Kodlarni yuklab olish
         uses: actions/checkout@v4
 
-      - name: Java JDK 17 ni o'rnatish
-        uses: actions/setup-java@v4
+      - name: Java JDK 17 ni o'rnatish (ENG YANGI V5 VERSIYA!)
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -23,7 +23,7 @@ jobs:
           gradle wrapper
           ./gradlew assembleRelease
 
-      - name: Tayyor APK faylini saqlash (YANGI V4 VERSIYA!)
+      - name: Tayyor APK faylini saqlash
         uses: actions/upload-artifact@v4
         with:
           name: BazarControl-APK
